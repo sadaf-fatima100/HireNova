@@ -13,7 +13,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isAuthenticated, error } = useSelector(
+  const { loading, isAuthenticated,justRegistered, error } = useSelector(
     (state) => state.user
   );
 
@@ -68,13 +68,14 @@ const Register = () => {
     });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     Object.keys(formDataState).forEach((key) => {
       if (formDataState[key]) formData.append(key, formDataState[key]);
     });
-    dispatch(register(formData));
+    await dispatch(register(formData));
+    
   };
 
   useEffect(() => {
@@ -83,10 +84,10 @@ const Register = () => {
       dispatch(clearAllUserErrors());
     }
 
-    if (isAuthenticated) {
+    if (isAuthenticated && justRegistered) {
       navigate("/");
     }
-  }, [dispatch, error, isAuthenticated, navigate]);
+  }, [dispatch, error, isAuthenticated,justRegistered, navigate]);
 
   return (
     <section className="authPage">

@@ -6,40 +6,59 @@ const userSlice = createSlice({
   initialState: {
     loading: false,
     isAuthenticated: false,
+    justRegistered: false,
     user: {},
     error: null,
     message: null,
   },
   reducers: {
-    registerRequest: (state) => { state.loading = true; state.error = null; },
+    registerRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
     registerSuccess: (state, action) => {
       state.loading = false;
-      state.isAuthenticated = true;
+      state.isAuthenticated = true;  // tumhara choice, true rakh sakte ho
+      state.justRegistered = true;   // ye flag important hai navbar ke liye
       state.user = action.payload.user;
       state.message = action.payload.message;
     },
     registerFailed: (state, action) => {
       state.loading = false;
       state.isAuthenticated = false;
+      state.justRegistered = false;
       state.error = action.payload;
     },
-    loginRequest: (state) => { state.loading = true; state.error = null; },
+
+    // ── Login ──
+    loginRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
     loginSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
+      state.justRegistered = false;   // login hone ke baad reset
       state.user = action.payload.user;
       state.message = action.payload.message;
     },
     loginFailed: (state, action) => {
       state.loading = false;
       state.isAuthenticated = false;
+      state.user = {};
       state.error = action.payload;
     },
-    fetchUserRequest: (state) => { state.loading = true; state.error = null; },
+
+    // ── Fetch logged in user ──
+    fetchUserRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
     fetchUserSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
+      state.justRegistered = false;  // fetch karne par bhi reset kar do
     },
     fetchUserFailed: (state, action) => {
       state.loading = false;
@@ -47,15 +66,21 @@ const userSlice = createSlice({
       state.user = {};
       state.error = action.payload;
     },
+
+    // ── Logout ──
     logoutSuccess: (state) => {
       state.isAuthenticated = false;
       state.user = {};
+      state.justRegistered = false;
       state.error = null;
     },
     logoutFailed: (state, action) => {
       state.error = action.payload;
     },
-    clearAllErrors: (state) => { state.error = null; },
+
+    // ── Clear errors ──
+    clearAllErrors: (state) => {
+      state.error = null; },
   },
 });
 
@@ -89,7 +114,9 @@ export const getUser = () => async (dispatch) => {
     dispatch(userSlice.actions.fetchUserSuccess(data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (err) {
-    dispatch(userSlice.actions.fetchUserFailed(err.response.data.message));
+    const errorMessage =
+    err.response?.data?.message || err.message || "Something went wrong";
+    dispatch(userSlice.actions.fetchUserFailed(errorMessage));
   }
 };
 

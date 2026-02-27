@@ -6,7 +6,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated,justRegistered } = useSelector((state) => state.user);
 
   return (
     <>
@@ -27,7 +27,7 @@ const Navbar = () => {
                 Jobs
               </Link>
             </li>
-            {isAuthenticated ? (
+            {isAuthenticated && !justRegistered ? (
               <li>
                 <Link to={"/dashboard"} onClick={() => setShow(false)}>
                   Dashboard
@@ -41,13 +41,7 @@ const Navbar = () => {
               </li>
               
             )}
-            {/* <div className="nav-actions">
-          {!isAuthenticated && (
-            <Link to={"/register"} className="btn-signup" onClick={() => setShow(false)}>
-              Try it free
-            </Link>
-          )}
-        </div> */}
+           
           </ul>
         </div>
 

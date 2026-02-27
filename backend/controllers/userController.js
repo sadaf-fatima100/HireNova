@@ -70,11 +70,11 @@ export const register = catchAsyncErrors(async (req, res, next) => {
       }
     }
     const user = await User.create(userData);
-    // sendToken(user, 201, res, "User Registered.");
-    res.status(201).json({
-      success: true,
-      message: "user registered"
-    })
+    sendToken(user, 201, res, "User Registered.");
+    // res.status(201).json({
+    //   success: true,
+    //   message: "user registered"
+    // })
   } catch (error) {
     next(error);
   }
