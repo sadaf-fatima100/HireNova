@@ -1,0 +1,237 @@
+/* ===== Jobs.css ===== */
+.jobs {
+    background: #f0f2f5;
+    padding: 40px 0;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .search-tab-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .search-tab-wrapper input[type="text"] {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  .search-tab-wrapper input[type="text"]:focus {
+    border-color: #6c5ce7;
+    outline: none;
+    box-shadow: 0 0 6px rgba(108, 92, 231, 0.3);
+  }
+  
+  .search-tab-wrapper button {
+    padding: 12px 20px;
+    background: #6c5ce7;
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+  
+  .search-tab-wrapper button:hover {
+    background: #5848c2;
+  }
+  
+  .wrapper {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  /* Sidebar Filters */
+  .filter-bar {
+    flex: 1;
+    min-width: 220px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    height: fit-content;
+  }
+  
+  .filter-bar h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+  
+  .filter-bar .cities {
+    margin-bottom: 25px;
+  }
+  
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .filter-option:hover {
+    background: #f7f5ff;
+  }
+  
+  .filter-option input[type="radio"] {
+    accent-color: #6c5ce7;
+  }
+  
+  .filter-option label {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  /* Jobs container */
+  .container {
+    flex: 3;
+  }
+  
+  .jobs_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  /* Job card styling */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  }
+  
+  .card .hiring {
+    display: inline-block;
+    background: #6c5ce7;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .card .hiring-multiple {
+    display: inline-block;
+    background: #00b894;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .card .title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .card .company {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+  }
+  
+  .card .location,
+  .card .salary,
+  .card .posted {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .card .btn-wrapper {
+    margin-top: 10px;
+  }
+  
+  .card .btn {
+    background: #6c5ce7;
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 6px;
+  }
+  
+  .card .btn:hover {
+    background: #5848c2;
+  }
+  
+  /* Mobile filter dropdown */
+  .mobile-filter {
+    display: none;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  
+  .mobile-filter select {
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+  
+  /* Not found image */
+  .jobs_container img {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    display: block;
+  }
+  
+  /* ===== Responsive ===== */
+  @media (max-width: 992px) {
+    .wrapper {
+      flex-direction: column;
+    }
+  
+    .filter-bar {
+      width: 100%;
+      order: 2;
+      margin-top: 20px;
+    }
+  
+    .container {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mobile-filter {
+      display: flex;
+    }
+  
+    .filter-bar {
+      display: none;
+    }
+  
+    .jobs_container {
+      grid-template-columns: 1fr;
+    }
+  }
