@@ -19,9 +19,9 @@ const Footer = () => {
         <div>
           <h4>Support</h4>
           <ul>
-  <li>123 Career Avenue, Gulshan-e-Iqbal, Karachi, Pakistan</li>
-  <li>support@jobnest.com</li>
-  <li>+92 300 1234567</li>
+  <li>123 Model Town, lahore, Pakistan</li>
+  <li>support@HireNova.com</li>
+  <li>+92 300 1239997</li>
 </ul>
         </div>
 
