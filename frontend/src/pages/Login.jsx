@@ -20,14 +20,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("role", role);
-    formData.append("email", email);
-    formData.append("password", password);
-    await dispatch(login(formData));
-  };
+ 
+   const handleLogin = async (e) => {
+  e.preventDefault();
+  await dispatch(login({ role, email, password })); 
+};
 
   useEffect(() => {
     if (error) {
