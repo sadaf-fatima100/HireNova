@@ -6,7 +6,7 @@ const userSlice = createSlice({
   initialState: {
     loading: false,
     isAuthenticated: false,
-    justRegistered: false,
+   
     user: {},
     error: null,
     message: null,
@@ -19,7 +19,7 @@ const userSlice = createSlice({
     registerSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;  // tumhara choice, true rakh sakte ho
-      state.justRegistered = true;   // ye flag important hai navbar ke liye
+      // ye flag important hai navbar ke liye
       state.user = action.payload.user;
       state.message = action.payload.message;
     },
@@ -38,7 +38,7 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.justRegistered = false;   // login hone ke baad reset
+        // login hone ke baad reset
       state.user = action.payload.user;
       state.message = action.payload.message;
     },
@@ -58,7 +58,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
-      state.justRegistered = false;  // fetch karne par bhi reset kar do
+       // fetch karne par bhi reset kar do
     },
     fetchUserFailed: (state, action) => {
       state.loading = false;
@@ -71,7 +71,7 @@ const userSlice = createSlice({
     logoutSuccess: (state) => {
       state.isAuthenticated = false;
       state.user = {};
-      state.justRegistered = false;
+
       state.error = null;
     },
     logoutFailed: (state, action) => {
