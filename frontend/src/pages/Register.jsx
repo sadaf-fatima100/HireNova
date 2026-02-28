@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { clearAllUserErrors, register } from "../store/slices/userSlice";
+import {
+  clearAllUserErrors,
+  register,
+} from "../store/slices/userSlice";
 import { toast } from "react-toastify";
 
 import { FaAddressBook, FaPencilAlt, FaRegUser } from "react-icons/fa";
@@ -13,7 +16,8 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isAuthenticated,error } = useSelector(
+  // ✅ message added
+  const { loading, error, message } = useSelector(
     (state) => state.user
   );
 
@@ -54,6 +58,7 @@ const Register = () => {
     "IT Consulting",
   ];
 
+  // ✅ input change
   const handleChange = (e) => {
     setFormDataState({
       ...formDataState,
@@ -61,33 +66,43 @@ const Register = () => {
     });
   };
 
+  // ✅ resume handler
   const resumeHandler = (e) => {
     setFormDataState({
       ...formDataState,
-      resume: e.target.files[0] || null, // ensure not null
+      resume: e.target.files[0],
     });
   };
 
-  const handleRegister = async (e) => {
+  // ✅ Register Submit
+  const handleRegister = (e) => {
     e.preventDefault();
+
     const formData = new FormData();
+
     Object.keys(formDataState).forEach((key) => {
-      if (formDataState[key]) formData.append(key, formDataState[key]);
+      if (formDataState[key]) {
+        formData.append(key, formDataState[key]);
+      }
     });
-    await dispatch(register(formData));
-    
+
+    dispatch(register(formData));
   };
 
+  // ✅ SUCCESS + ERROR HANDLING
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
 
-    if (isAuthenticated ) {
-      navigate("/");
+    // ✅ REGISTER SUCCESS → LOGIN REDIRECT
+    if (message) {
+      toast.success("Account created successfully. Please login.");
+      navigate("/login");
+      dispatch(clearAllUserErrors());
     }
-  }, [dispatch, error, isAuthenticated, navigate]);
+  }, [dispatch, error, message, navigate]);
 
   return (
     <section className="authPage">
@@ -104,12 +119,12 @@ const Register = () => {
               <div>
                 <select
                   name="role"
-                  value={formDataState.role || ""}
+                  value={formDataState.role}
                   onChange={handleChange}
                 >
                   <option value="">Select Role</option>
-                  <option value="Employer">Register as Employer</option>
-                  <option value="Job Seeker">Register as Job Seeker</option>
+                  <option value="Employer">Employer</option>
+                  <option value="Job Seeker">Job Seeker</option>
                 </select>
                 <FaRegUser />
               </div>
@@ -122,7 +137,7 @@ const Register = () => {
                   type="text"
                   name="name"
                   placeholder="Your Name"
-                  value={formDataState.name || ""}
+                  value={formDataState.name}
                   onChange={handleChange}
                 />
                 <FaPencilAlt />
@@ -139,7 +154,7 @@ const Register = () => {
                   type="email"
                   name="email"
                   placeholder="youremail@gmail.com"
-                  value={formDataState.email || ""}
+                  value={formDataState.email}
                   onChange={handleChange}
                 />
                 <MdOutlineMailOutline />
@@ -153,7 +168,7 @@ const Register = () => {
                   type="number"
                   name="phone"
                   placeholder="111-222-333"
-                  value={formDataState.phone || ""}
+                  value={formDataState.phone}
                   onChange={handleChange}
                 />
                 <FaPhoneFlip />
@@ -170,7 +185,7 @@ const Register = () => {
                   type="text"
                   name="address"
                   placeholder="Your Address"
-                  value={formDataState.address || ""}
+                  value={formDataState.address}
                   onChange={handleChange}
                 />
                 <FaAddressBook />
@@ -184,7 +199,7 @@ const Register = () => {
                   type="password"
                   name="password"
                   placeholder="Your Password"
-                  value={formDataState.password || ""}
+                  value={formDataState.password}
                   onChange={handleChange}
                 />
                 <RiLock2Fill />
@@ -203,7 +218,7 @@ const Register = () => {
                       <div>
                         <select
                           name={field}
-                          value={formDataState[field] || ""}
+                          value={formDataState[field]}
                           onChange={handleChange}
                         >
                           <option value="">Select Niche</option>
@@ -223,23 +238,19 @@ const Register = () => {
               <div className="wrapper">
                 <div className="inputTag">
                   <label>Cover Letter</label>
-                  <div>
-                    <textarea
-                      name="coverLetter"
-                      rows="6"
-                      value={formDataState.coverLetter || ""}
-                      onChange={handleChange}
-                    />
-                  </div>
+                  <textarea
+                    name="coverLetter"
+                    rows="6"
+                    value={formDataState.coverLetter}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
               <div className="wrapper">
                 <div className="inputTag">
                   <label>Resume</label>
-                  <div>
-                    <input type="file" onChange={resumeHandler} />
-                  </div>
+                  <input type="file" onChange={resumeHandler} />
                 </div>
               </div>
             </>
@@ -249,7 +260,9 @@ const Register = () => {
             {loading ? "Registering..." : "Register"}
           </button>
 
-          <Link to="/login">Already have an account? Login</Link>
+          <Link to="/login">
+            Already have an account? Login
+          </Link>
         </form>
       </div>
     </section>
