@@ -6,7 +6,6 @@ const userSlice = createSlice({
   initialState: {
     loading: false,
     isAuthenticated: false,
-   
     user: {},
     error: null,
     message: null,
@@ -18,14 +17,13 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.loading = false;
-      state.isAuthenticated = false;  
+      state.isAuthenticated = false;
       state.user = action.payload.user;
       state.message = action.payload.message;
     },
     registerFailed: (state, action) => {
       state.loading = false;
       state.isAuthenticated = false;
-      
       state.error = action.payload;
     },
 
@@ -37,9 +35,8 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-        // login hone ke baad reset
       state.user = action.payload.user;
-      state.message = action.payload.message;
+      state.message = null; // ← login par message clear
     },
     loginFailed: (state, action) => {
       state.loading = false;
@@ -57,7 +54,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
-       // fetch karne par bhi reset kar do
     },
     fetchUserFailed: (state, action) => {
       state.loading = false;
@@ -70,8 +66,8 @@ const userSlice = createSlice({
     logoutSuccess: (state) => {
       state.isAuthenticated = false;
       state.user = {};
-
       state.error = null;
+      state.message = null; // ← logout par message clear
     },
     logoutFailed: (state, action) => {
       state.error = action.payload;
@@ -79,11 +75,17 @@ const userSlice = createSlice({
 
     // ── Clear errors ──
     clearAllErrors: (state) => {
-      state.error = null; },
+      state.error = null;
+    },
+
+    // ✅ Clear message
+    clearMessage: (state) => {
+      state.message = null;
+    },
   },
 });
 
-// Thunks
+// ── Thunks ──
 export const register = (formData) => async (dispatch) => {
   dispatch(userSlice.actions.registerRequest());
   try {
@@ -114,7 +116,7 @@ export const getUser = () => async (dispatch) => {
     dispatch(userSlice.actions.clearAllErrors());
   } catch (err) {
     const errorMessage =
-    err.response?.data?.message || err.message || "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     dispatch(userSlice.actions.fetchUserFailed(errorMessage));
   }
 };
@@ -131,6 +133,11 @@ export const logout = () => async (dispatch) => {
 
 export const clearAllUserErrors = () => (dispatch) => {
   dispatch(userSlice.actions.clearAllErrors());
+};
+
+// ✅ clearMessage export
+export const clearMessage = () => (dispatch) => {
+  dispatch(userSlice.actions.clearMessage());
 };
 
 export default userSlice.reducer;
