@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  clearAllUserErrors,
-  register,
-} from "../store/slices/userSlice";
+import { clearAllUserErrors, register } from "../store/slices/userSlice";
 import { toast } from "react-toastify";
 
 import { FaAddressBook, FaPencilAlt, FaRegUser } from "react-icons/fa";
@@ -16,10 +13,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // ✅ message added
-  const { loading, error, message } = useSelector(
-    (state) => state.user
-  );
+  const { loading, error, message } = useSelector((state) => state.user);
 
   const [formDataState, setFormDataState] = useState({
     role: "",
@@ -58,51 +52,37 @@ const Register = () => {
     "IT Consulting",
   ];
 
-  // ✅ input change
   const handleChange = (e) => {
-    setFormDataState({
-      ...formDataState,
-      [e.target.name]: e.target.value,
-    });
+    setFormDataState({ ...formDataState, [e.target.name]: e.target.value });
   };
 
-  // ✅ resume handler
   const resumeHandler = (e) => {
-    setFormDataState({
-      ...formDataState,
-      resume: e.target.files[0],
-    });
+    setFormDataState({ ...formDataState, resume: e.target.files[0] });
   };
 
-  // ✅ Register Submit
   const handleRegister = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-
     Object.keys(formDataState).forEach((key) => {
-      if (formDataState[key]) {
-        formData.append(key, formDataState[key]);
-      }
+      if (formDataState[key]) formData.append(key, formDataState[key]);
     });
 
     dispatch(register(formData));
   };
 
-  // ✅ SUCCESS + ERROR HANDLING
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
 
-    // ✅ REGISTER SUCCESS → LOGIN REDIRECT
     if (message) {
       toast.success("Account created successfully. Please login.");
       navigate("/login");
       dispatch(clearAllUserErrors());
     }
-  }, [dispatch, error, message, navigate]);
+  }, [error, message, dispatch, navigate]);
 
   return (
     <section className="authPage">
@@ -260,9 +240,7 @@ const Register = () => {
             {loading ? "Registering..." : "Register"}
           </button>
 
-          <Link to="/login">
-            Already have an account? Login
-          </Link>
+          <Link to="/login">Already have an account? Login</Link>
         </form>
       </div>
     </section>
