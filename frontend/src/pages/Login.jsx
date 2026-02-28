@@ -12,8 +12,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { loading, isAuthenticated, error } =
-    useSelector((state) => state.user);
+  const { loading, isAuthenticated, error } = useSelector(
+    (state) => state.user
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,15 +22,16 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("role", role);
-    formData.append("email", email);
-    formData.append("password", password);
-
-    dispatch(login(formData));
+    // Send JSON (not FormData)
+    dispatch(
+      login({
+        role,
+        email,
+        password,
+      })
+    );
   };
 
-  // ✅ CLEAN EFFECT
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -38,7 +40,7 @@ const Login = () => {
 
     if (isAuthenticated) {
       toast.success("Login Successful ✅");
-      navigate("/");
+      navigate("/"); // redirect after login
     }
   }, [error, isAuthenticated, dispatch, navigate]);
 
@@ -53,10 +55,7 @@ const Login = () => {
           <div className="inputTag">
             <label>Login As</label>
             <div>
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="">Select Role</option>
                 <option value="Employer">Employer</option>
                 <option value="Job Seeker">Job Seeker</option>
