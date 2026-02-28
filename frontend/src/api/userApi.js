@@ -11,7 +11,9 @@ export const registerUser = async (formData) => {
 
 // User login (send JSON, credentials sent automatically)
 export const loginUser = async (data) => {
-  const response = await API.post("/user/login", data); // no multipart, no JSON header
+  const response = await API.post("/user/login", data, {
+    headers: { "Content-Type": "application/json" }
+  });
   return response.data;
 };
 
