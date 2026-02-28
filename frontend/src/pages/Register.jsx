@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { clearAllUserErrors, register } from "../store/slices/userSlice";
+import { clearAllUserErrors, register, clearMessage } from "../store/slices/userSlice";
 import { toast } from "react-toastify";
 
 import { FaAddressBook, FaPencilAlt, FaRegUser } from "react-icons/fa";
@@ -13,9 +13,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isAuthenticated, error, message } = useSelector(
-    (state) => state.user
-  );
+  const { loading, error, message } = useSelector((state) => state.user);
 
   const [formDataState, setFormDataState] = useState({
     role: "",
@@ -54,6 +52,11 @@ const Register = () => {
     "IT Consulting",
   ];
 
+  // ✅ Page khulte hi message clear karo
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, []);
+
   const handleChange = (e) => {
     setFormDataState({
       ...formDataState,
@@ -85,7 +88,8 @@ const Register = () => {
 
     // ✅ Register hone ke baad login par bhejo
     if (message) {
-      toast.success("Registered successfully! Please login.");
+      toast.success(message);
+      dispatch(clearMessage()); // ← clear karo redirect se pehle
       navigate("/login");
     }
   }, [dispatch, error, message, navigate]);
