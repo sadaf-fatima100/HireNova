@@ -12,7 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { loading, isAuthenticated, error, justRegistered } = useSelector(
+  const { loading, isAuthenticated, error } = useSelector(
     (state) => state.user
   );
 
@@ -33,7 +33,7 @@ const Login = () => {
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
-    if (isAuthenticated && !justRegistered) {
+    if (isAuthenticated) {
       navigateTo("/");
     }
   }, [dispatch, error, loading, isAuthenticated]);
