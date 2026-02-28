@@ -13,7 +13,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isAuthenticated,justRegistered, error } = useSelector(
+  const { loading, isAuthenticated, error, message } = useSelector(
     (state) => state.user
   );
 
@@ -64,7 +64,7 @@ const Register = () => {
   const resumeHandler = (e) => {
     setFormDataState({
       ...formDataState,
-      resume: e.target.files[0] || null, // ensure not null
+      resume: e.target.files[0] || null,
     });
   };
 
@@ -75,7 +75,6 @@ const Register = () => {
       if (formDataState[key]) formData.append(key, formDataState[key]);
     });
     await dispatch(register(formData));
-    
   };
 
   useEffect(() => {
@@ -84,10 +83,12 @@ const Register = () => {
       dispatch(clearAllUserErrors());
     }
 
-    if (isAuthenticated && justRegistered) {
-      navigate("/");
+    // ✅ Register hone ke baad login par bhejo
+    if (message) {
+      toast.success("Registered successfully! Please login.");
+      navigate("/login");
     }
-  }, [dispatch, error, isAuthenticated,justRegistered, navigate]);
+  }, [dispatch, error, message, navigate]);
 
   return (
     <section className="authPage">
