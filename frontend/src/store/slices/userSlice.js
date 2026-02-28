@@ -18,7 +18,7 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.loading = false;
-      state.isAuthenticated = true;  false
+      state.isAuthenticated = false;  
       state.user = action.payload.user;
       state.message = action.payload.message;
     },
