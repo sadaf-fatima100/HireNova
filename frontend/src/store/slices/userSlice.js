@@ -18,15 +18,14 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.loading = false;
-      state.isAuthenticated = true;  // tumhara choice, true rakh sakte ho
-      // ye flag important hai navbar ke liye
+      state.isAuthenticated = true;  false
       state.user = action.payload.user;
       state.message = action.payload.message;
     },
     registerFailed: (state, action) => {
       state.loading = false;
       state.isAuthenticated = false;
-      state.justRegistered = false;
+      
       state.error = action.payload;
     },
 
