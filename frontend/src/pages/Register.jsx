@@ -13,7 +13,9 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, message } = useSelector((state) => state.user);
+  const { loading, isAuthenticated,justRegistered, error } = useSelector(
+    (state) => state.user
+  );
 
   const [formDataState, setFormDataState] = useState({
     role: "",
@@ -53,22 +55,27 @@ const Register = () => {
   ];
 
   const handleChange = (e) => {
-    setFormDataState({ ...formDataState, [e.target.name]: e.target.value });
+    setFormDataState({
+      ...formDataState,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const resumeHandler = (e) => {
-    setFormDataState({ ...formDataState, resume: e.target.files[0] });
+    setFormDataState({
+      ...formDataState,
+      resume: e.target.files[0] || null, // ensure not null
+    });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     Object.keys(formDataState).forEach((key) => {
       if (formDataState[key]) formData.append(key, formDataState[key]);
     });
-
-    dispatch(register(formData));
+    await dispatch(register(formData));
+    
   };
 
   useEffect(() => {
@@ -77,12 +84,10 @@ const Register = () => {
       dispatch(clearAllUserErrors());
     }
 
-    if (message) {
-      toast.success("Account created successfully. Please login.");
-      navigate("/login");
-      dispatch(clearAllUserErrors());
+    if (isAuthenticated && justRegistered) {
+      navigate("/");
     }
-  }, [error, message, dispatch, navigate]);
+  }, [dispatch, error, isAuthenticated,justRegistered, navigate]);
 
   return (
     <section className="authPage">
@@ -99,12 +104,12 @@ const Register = () => {
               <div>
                 <select
                   name="role"
-                  value={formDataState.role}
+                  value={formDataState.role || ""}
                   onChange={handleChange}
                 >
                   <option value="">Select Role</option>
-                  <option value="Employer">Employer</option>
-                  <option value="Job Seeker">Job Seeker</option>
+                  <option value="Employer">Register as Employer</option>
+                  <option value="Job Seeker">Register as Job Seeker</option>
                 </select>
                 <FaRegUser />
               </div>
@@ -117,7 +122,7 @@ const Register = () => {
                   type="text"
                   name="name"
                   placeholder="Your Name"
-                  value={formDataState.name}
+                  value={formDataState.name || ""}
                   onChange={handleChange}
                 />
                 <FaPencilAlt />
@@ -134,7 +139,7 @@ const Register = () => {
                   type="email"
                   name="email"
                   placeholder="youremail@gmail.com"
-                  value={formDataState.email}
+                  value={formDataState.email || ""}
                   onChange={handleChange}
                 />
                 <MdOutlineMailOutline />
@@ -148,7 +153,7 @@ const Register = () => {
                   type="number"
                   name="phone"
                   placeholder="111-222-333"
-                  value={formDataState.phone}
+                  value={formDataState.phone || ""}
                   onChange={handleChange}
                 />
                 <FaPhoneFlip />
@@ -165,7 +170,7 @@ const Register = () => {
                   type="text"
                   name="address"
                   placeholder="Your Address"
-                  value={formDataState.address}
+                  value={formDataState.address || ""}
                   onChange={handleChange}
                 />
                 <FaAddressBook />
@@ -179,7 +184,7 @@ const Register = () => {
                   type="password"
                   name="password"
                   placeholder="Your Password"
-                  value={formDataState.password}
+                  value={formDataState.password || ""}
                   onChange={handleChange}
                 />
                 <RiLock2Fill />
@@ -198,7 +203,7 @@ const Register = () => {
                       <div>
                         <select
                           name={field}
-                          value={formDataState[field]}
+                          value={formDataState[field] || ""}
                           onChange={handleChange}
                         >
                           <option value="">Select Niche</option>
@@ -218,19 +223,23 @@ const Register = () => {
               <div className="wrapper">
                 <div className="inputTag">
                   <label>Cover Letter</label>
-                  <textarea
-                    name="coverLetter"
-                    rows="6"
-                    value={formDataState.coverLetter}
-                    onChange={handleChange}
-                  />
+                  <div>
+                    <textarea
+                      name="coverLetter"
+                      rows="6"
+                      value={formDataState.coverLetter || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="wrapper">
                 <div className="inputTag">
                   <label>Resume</label>
-                  <input type="file" onChange={resumeHandler} />
+                  <div>
+                    <input type="file" onChange={resumeHandler} />
+                  </div>
                 </div>
               </div>
             </>
