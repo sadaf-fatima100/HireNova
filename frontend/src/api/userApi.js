@@ -1,7 +1,7 @@
 // src/api/userApi.js
 import API from "./axios";
 
-// User registration
+// User registration (multipart/form-data for resume upload)
 export const registerUser = async (formData) => {
   const response = await API.post("/user/register", formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -9,15 +9,13 @@ export const registerUser = async (formData) => {
   return response.data;
 };
 
-// User login
-export const loginUser = async (formData) => {
-  const response = await API.post("/user/login", formData, {
-    headers: { "Content-Type": "application/json" },
-  });
+// User login (send JSON, credentials sent automatically)
+export const loginUser = async (data) => {
+  const response = await API.post("/user/login", data); // no multipart, no JSON header
   return response.data;
 };
 
-// Get logged in user
+// Get logged in user (withCredentials ensures cookie sent)
 export const getUserData = async () => {
   const response = await API.get("/user/getuser");
   return response.data;
