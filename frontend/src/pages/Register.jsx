@@ -13,7 +13,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isAuthenticated,justRegistered, error } = useSelector(
+  const { loading, isAuthenticated,error } = useSelector(
     (state) => state.user
   );
 
@@ -84,10 +84,10 @@ const Register = () => {
       dispatch(clearAllUserErrors());
     }
 
-    if (isAuthenticated && justRegistered) {
+    if (isAuthenticated ) {
       navigate("/");
     }
-  }, [dispatch, error, isAuthenticated,justRegistered, navigate]);
+  }, [dispatch, error, isAuthenticated, navigate]);
 
   return (
     <section className="authPage">
