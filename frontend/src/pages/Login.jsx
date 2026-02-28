@@ -12,20 +12,21 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { loading, isAuthenticated, error, justRegistered } = useSelector(
+  // ✅ justRegistered hata diya
+  const { loading, isAuthenticated, error } = useSelector(
     (state) => state.user
   );
 
   const dispatch = useDispatch();
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
-  const handleLogin =async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("role", role);
     formData.append("email", email);
     formData.append("password", password);
-   await dispatch(login(formData));
+    await dispatch(login(formData));
   };
 
   useEffect(() => {
@@ -33,19 +34,22 @@ const Login = () => {
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
-    if (isAuthenticated && !justRegistered) {
-      navigateTo("/");
+
+    // ✅ Simple - login hone ke baad home par bhejo
+    if (isAuthenticated) {
+      navigate("/");
     }
-  }, [dispatch, error, loading, isAuthenticated]);
+  }, [dispatch, error, isAuthenticated, navigate]);
 
   return (
-    <>
-      <section className="authPage">
-        <div className="container login-container">
-          <div className="header">
-            <h3>Login to your account</h3>
-          </div>
-          <form onSubmit={handleLogin}>
+    <section className="authPage">
+      <div className="container">
+        <div className="header">
+          <h3>Login to your account</h3>
+        </div>
+
+        <form onSubmit={handleLogin}>
+          <div className="wrapper">
             <div className="inputTag">
               <label>Login As</label>
               <div>
@@ -57,6 +61,9 @@ const Login = () => {
                 <FaRegUser />
               </div>
             </div>
+          </div>
+
+          <div className="wrapper">
             <div className="inputTag">
               <label>Email</label>
               <div>
@@ -69,6 +76,9 @@ const Login = () => {
                 <MdOutlineMailOutline />
               </div>
             </div>
+          </div>
+
+          <div className="wrapper">
             <div className="inputTag">
               <label>Password</label>
               <div>
@@ -81,14 +91,16 @@ const Login = () => {
                 <RiLock2Fill />
               </div>
             </div>
-            <button type="submit" disabled={loading}>
-              Login
-            </button>
-            <Link to={"/register"}>Register Now</Link>
-          </form>
-        </div>
-      </section>
-    </>
+          </div>
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <Link to="/register">Register Now</Link>
+        </form>
+      </div>
+    </section>
   );
 };
 
