@@ -2117,9 +2117,7 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   }
 }
 /* ================================================================
-   DASHBOARD — FINAL COMPLETE STYLES
-   Paste this entire block at the bottom of app.css.
-   Covers: Dashboard layout, sidebar, all sub-components.
+   DASHBOARD — COMPLETE STYLES (No Collapsed Sidebar)
 ================================================================ */
 
 /* ─────────────────────────────────────────────
@@ -2189,52 +2187,12 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   flex-direction: column;
   width: 210px;
   overflow: hidden;
-  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 40;
 }
 
-.account .sidebar.collapsed {
-  width: 52px;
-}
-
-/* ─────────────────────────────────────────────
-   COLLAPSE TOGGLE BUTTON
-───────────────────────────────────────────── */
+/* Hide the collapse toggle button entirely */
 .account .sidebar-toggle {
-  flex-shrink: 0;
-  display: flex;
-  justify-content: flex-end;
-  padding: 0.8rem 0.65rem 0.3rem;
-}
-
-.account .sidebar-toggle button {
-  width: 24px;
-  height: 24px;
-  border-radius: 5px;
-  background: rgba(255,255,255,0.05);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.14s;
-}
-
-.account .sidebar-toggle button:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-.account .sidebar-toggle button svg {
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.5);
-  transition: transform 0.22s ease;
-  flex-shrink: 0;
-  overflow: visible;
-}
-
-.account .sidebar.collapsed .sidebar-toggle button svg {
-  transform: rotate(180deg);
+  display: none;
 }
 
 /* ─────────────────────────────────────────────
@@ -2242,7 +2200,7 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 ───────────────────────────────────────────── */
 .account .sidebar_links {
   flex: 1;
-  padding: 0.15rem 0.48rem 1rem;
+  padding: 1rem 0.48rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.04rem;
@@ -2262,13 +2220,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   padding: 0 0.38rem;
   margin-bottom: 0.36rem;
   white-space: nowrap;
-  overflow: hidden;
-  transition: opacity 0.16s;
-}
-
-.account .sidebar.collapsed .sidebar_links h4 {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .account .sidebar_links li { list-style: none; }
@@ -2294,8 +2245,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: hidden;
   white-space: nowrap;
   transition: background 0.13s, color 0.13s;
-  position: relative;
-  min-width: 0;
 }
 
 .account .sidebar_links li button:hover {
@@ -2321,46 +2270,7 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 0.68rem;
-  opacity: 1;
-  max-width: 140px;
-  transition: opacity 0.13s, max-width 0.22s;
 }
-
-.account .sidebar.collapsed .sidebar_links li button .nav-label {
-  opacity: 0;
-  max-width: 0;
-  pointer-events: none;
-}
-
-.account .sidebar.collapsed .sidebar_links li button {
-  justify-content: center;
-  padding: 0.5rem 0;
-}
-
-/* Tooltip */
-.account .sidebar.collapsed .sidebar_links li { position: relative; }
-
-.account .sidebar.collapsed .sidebar_links li button::after {
-  content: attr(data-label);
-  position: absolute;
-  left: calc(100% + 7px);
-  top: 50%;
-  transform: translateY(-50%);
-  background: #1a202c;
-  color: #fff;
-  font-size: 0.6rem;
-  font-weight: 600;
-  padding: 0.24rem 0.58rem;
-  border-radius: 4px;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.11s;
-  z-index: 999;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.22);
-}
-
-.account .sidebar.collapsed .sidebar_links li button:hover::after { opacity: 1; }
 
 /* Active */
 .account .sidebar_links li button.active-nav {
@@ -2403,7 +2313,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 
 .account .banner::-webkit-scrollbar { display: none; }
 
-/* Empty state h1 */
 .account .banner > h1 {
   font-size: 0.82rem;
   font-weight: 600;
@@ -2420,7 +2329,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .account .sidebar { width: 192px; }
-  .account .sidebar.collapsed { width: 50px; }
   .account .banner { padding: 1.75rem 1.75rem; }
   .account .component_header { padding: 0 1.5rem; }
 }
@@ -2429,34 +2337,25 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
    MOBILE ≤ 768px
 ───────────────────────────────────────────── */
 @media (max-width: 768px) {
-  /* Off-canvas sidebar */
+  /* Off-canvas sidebar — fully hidden by default */
   .account .sidebar {
     position: fixed;
     top: var(--navbar-height);
     left: 0;
     height: calc(100vh - var(--navbar-height));
     z-index: 300;
-    width: 198px;
+    width: 210px;
     transform: translateX(-100%);
-    transition: transform 0.22s ease, width 0.22s ease;
+    transition: transform 0.22s ease;
     box-shadow: 4px 0 20px rgba(0,0,0,0.18);
   }
 
-  /* Collapsed strip stays visible */
-  .account .sidebar.collapsed {
-    width: 52px;
-    transform: translateX(0);
-  }
-
-  /* Slide in */
+  /* Slide in when open */
   .account .sidebar.showSidebar {
     transform: translateX(0);
   }
 
-  /* Toggle button stays on mobile */
-  .account .sidebar-toggle { display: flex; }
-
-  /* Dim overlay */
+  /* Dim overlay behind sidebar */
   .account .container::after {
     content: "";
     position: fixed;
@@ -2472,7 +2371,7 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
     pointer-events: auto;
   }
 
-  /* FAB */
+  /* FAB toggle button */
   .account .sidebar_icon {
     display: flex;
     align-items: center;
@@ -2523,13 +2422,8 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 
 /* ================================================================
    SUB-COMPONENTS
-   Applies to: MyProfile, UpdateProfile, UpdatePassword,
-               JobPost, MyJobs, MyApplications, Applications
 ================================================================ */
 
-/* ─────────────────────────────────────────────
-   BASE WRAPPER
-───────────────────────────────────────────── */
 .account_components {
   background: transparent;
   width: 100%;
@@ -2537,14 +2431,10 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   padding: 0;
 }
 
-/* Full width for grid-based tabs */
 .account_components:has(.applications_container) {
   max-width: 100%;
 }
 
-/* ─────────────────────────────────────────────
-   SECTION HEADING
-───────────────────────────────────────────── */
 .account_components h3 {
   font-size: 0.73rem;
   font-weight: 700;
@@ -2564,9 +2454,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   background: #e8eaef;
 }
 
-/* ─────────────────────────────────────────────
-   FIELD GROUP  (direct child div)
-───────────────────────────────────────────── */
 .account_components > div {
   display: flex;
   flex-direction: column;
@@ -2577,9 +2464,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 
 .account_components > div:last-of-type { margin-bottom: 0; }
 
-/* ─────────────────────────────────────────────
-   LABEL
-───────────────────────────────────────────── */
 .account_components label {
   font-size: 0.5rem;
   font-weight: 700;
@@ -2589,9 +2473,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* ─────────────────────────────────────────────
-   LABEL + OPTIONAL TAG  (JobPost)
-───────────────────────────────────────────── */
 .label-infoTag-wrapper {
   display: flex;
   align-items: center;
@@ -2623,10 +2504,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* ─────────────────────────────────────────────
-   INPUT / SELECT / TEXTAREA
-   Underline only — transparent background
-───────────────────────────────────────────── */
 .account_components input,
 .account_components select,
 .account_components textarea {
@@ -2661,7 +2538,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   font-size: 0.7rem;
 }
 
-/* Disabled fields */
 .account_components input:disabled,
 .account_components select:disabled,
 .account_components textarea:disabled {
@@ -2671,14 +2547,12 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   -webkit-text-fill-color: #9ba8bb;
 }
 
-/* Textarea */
 .account_components textarea {
   resize: none;
   min-height: 85px;
   line-height: 1.72;
 }
 
-/* File input */
 .account_components input[type="file"] {
   padding: 0.35rem 0;
   font-size: 0.65rem;
@@ -2686,7 +2560,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   cursor: pointer;
 }
 
-/* Select — custom chevron */
 .account_components select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239ba8bb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
@@ -2694,14 +2567,12 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   padding-right: 1.4rem;
 }
 
-/* Niches / stacked inputs wrapper (inline style div) */
 .account_components > div > div[style] {
   display: flex !important;
   flex-direction: column !important;
   gap: 0 !important;
 }
 
-/* Current resume sub-label */
 .account_components > div > div > p {
   font-size: 0.5rem;
   color: #9ba8bb;
@@ -2740,7 +2611,7 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 }
 
 /* ─────────────────────────────────────────────
-   SAVE / SUBMIT BUTTON WRAPPER
+   SAVE / SUBMIT BUTTON
 ───────────────────────────────────────────── */
 .save_change_btn_wrapper {
   margin-top: 1.6rem;
@@ -2775,10 +2646,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   transform: none;
 }
 
-/* ─────────────────────────────────────────────
-   POST JOB — centered submit btn
-   targets the last div > .btn in JobPost
-───────────────────────────────────────────── */
 .account_components > div > .btn {
   padding: 0.54rem 2rem;
   font-size: 0.67rem;
@@ -2841,9 +2708,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   margin-top: 0.15rem;
 }
 
-/* ─────────────────────────────────────────────
-   CARD — no bg, no box, bottom separator only
-───────────────────────────────────────────── */
 .applications_container .card {
   background: transparent;
   border: none;
@@ -2863,9 +2727,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 .applications_container .card:nth-child(5) { animation-delay: 0.15s; }
 .applications_container .card:nth-child(6) { animation-delay: 0.18s; }
 
-/* ─────────────────────────────────────────────
-   SUB-SEC — info row
-───────────────────────────────────────────── */
 .applications_container .card .sub-sec {
   font-size: 0.68rem;
   color: #64748b;
@@ -2888,7 +2749,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   flex-shrink: 0;
 }
 
-/* Disabled textarea inside card (coverletter) */
 .applications_container .card .sub-sec textarea {
   width: 100%;
   margin-top: 0.2rem;
@@ -2908,9 +2768,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   -webkit-text-fill-color: #64748b;
 }
 
-/* ─────────────────────────────────────────────
-   BTN-WRAPPER — delete + view resume
-───────────────────────────────────────────── */
 .applications_container .card .btn-wrapper {
   display: flex;
   align-items: center;
@@ -2921,7 +2778,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   flex-wrap: wrap;
 }
 
-/* Delete — underline text button */
 .applications_container .card .btn-wrapper .outline_btn {
   font-size: 0.6rem;
   font-weight: 700;
@@ -2939,7 +2795,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 
 .applications_container .card .btn-wrapper .outline_btn:hover { color: #dc2626; }
 
-/* View resume link */
 .applications_container .card .btn-wrapper .btn {
   font-size: 0.6rem;
   font-weight: 600;
@@ -2966,9 +2821,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   border-bottom-color: var(--primary);
 }
 
-/* ─────────────────────────────────────────────
-   DELETE JOB btn — direct child of card (MyJobs)
-───────────────────────────────────────────── */
 .applications_container .card > .btn {
   margin-top: 0.3rem;
   padding: 0;
@@ -3040,14 +2892,11 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   .applications_container .card .sub-sec { font-size: 0.65rem; }
   .applications_container .card .sub-sec span { font-size: 0.55rem; }
 }
+
 /* ================================================================
    POST APPLICATION PAGE
-   Append this entire block to app.css
 ================================================================ */
 
-/* ─────────────────────────────────────────────
-   PAGE WRAPPER — 2 column grid
-───────────────────────────────────────────── */
 .application_page {
   min-height: 100vh;
   padding-top: var(--navbar-height);
@@ -3058,7 +2907,7 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 }
 
 /* ─────────────────────────────────────────────
-   LEFT — FORM (sticky, scrollable)
+   LEFT — FORM
 ───────────────────────────────────────────── */
 .application_page form {
   position: sticky;
@@ -3076,7 +2925,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 
 .application_page form::-webkit-scrollbar { display: none; }
 
-/* Form title */
 .application_page form h3 {
   font-size: 0.68rem;
   font-weight: 800;
@@ -3098,7 +2946,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   background: #e8eaef;
 }
 
-/* Field group */
 .application_page form > div {
   display: flex;
   flex-direction: column;
@@ -3109,7 +2956,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 
 .application_page form > div:last-of-type { margin-bottom: 0; }
 
-/* Label */
 .application_page form label {
   font-size: 0.5rem;
   font-weight: 700;
@@ -3119,7 +2965,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* Input / textarea — underline only, transparent */
 .application_page form input,
 .application_page form textarea {
   width: 100%;
@@ -3150,7 +2995,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   font-size: 0.7rem;
 }
 
-/* Disabled (job title placeholder) */
 .application_page form input:disabled {
   color: #9ba8bb;
   border-bottom-style: dashed;
@@ -3158,14 +3002,12 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   -webkit-text-fill-color: #9ba8bb;
 }
 
-/* Textarea */
 .application_page form textarea {
   resize: none;
   min-height: 115px;
   line-height: 1.72;
 }
 
-/* File input */
 .application_page form input[type="file"] {
   padding: 0.35rem 0;
   font-size: 0.65rem;
@@ -3173,7 +3015,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   cursor: pointer;
 }
 
-/* Apply button */
 .application_page form .btn {
   width: 100%;
   padding: 0.65rem 1.5rem;
@@ -3202,7 +3043,7 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 }
 
 /* ─────────────────────────────────────────────
-   RIGHT — JOB DETAILS PANEL
+   RIGHT — JOB DETAILS
 ───────────────────────────────────────────── */
 .application_page .job-details {
   padding: 2.5rem 3rem 3.5rem;
@@ -3210,7 +3051,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   min-height: calc(100vh - var(--navbar-height));
 }
 
-/* ── HEADER ── */
 .application_page .job-details header {
   margin-bottom: 1.4rem;
 }
@@ -3225,7 +3065,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* Website link */
 .application_page .job-details header a {
   display: inline-flex;
   align-items: center;
@@ -3257,27 +3096,23 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* HR */
 .application_page .job-details hr {
   border: none;
   border-top: 1px solid #e8eaef;
   margin: 1.3rem 0;
 }
 
-/* Section wrapper */
 .application_page .job-details section {
   display: flex;
   flex-direction: column;
 }
 
-/* ── WRAPPER — job details, location, description ── */
 .application_page .job-details .wrapper {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
 }
 
-/* Wrapper section label */
 .application_page .job-details .wrapper > h3 {
   font-size: 0.6rem;
   font-weight: 700;
@@ -3288,7 +3123,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* Pay / job type icon rows */
 .application_page .job-details .wrapper > div {
   display: flex;
   align-items: flex-start;
@@ -3325,7 +3159,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* Location row */
 .application_page .job-details .wrapper .location-wrapper {
   display: flex;
   align-items: center;
@@ -3346,7 +3179,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* Intro paragraph */
 .application_page .job-details .wrapper > p {
   font-size: 0.71rem;
   color: #4a5568;
@@ -3354,7 +3186,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* Qualifications / Responsibilities / Offering blocks */
 .application_page .job-details .wrapper > div:has(h4) {
   display: flex;
   flex-direction: column;
@@ -3371,7 +3202,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   overflow: visible;
 }
 
-/* List */
 .application_page .job-details .wrapper ul {
   display: flex;
   flex-direction: column;
@@ -3400,7 +3230,6 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   top: 0.05rem;
 }
 
-/* ── FOOTER — niche ── */
 .application_page .job-details footer {
   display: flex;
   flex-direction: column;
@@ -3445,14 +3274,13 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
 }
 
 /* ─────────────────────────────────────────────
-   MOBILE ≤ 768px — vertical stack
+   MOBILE ≤ 768px
 ───────────────────────────────────────────── */
 @media (max-width: 768px) {
   .application_page {
     grid-template-columns: 1fr;
   }
 
-  /* Unsticky form on mobile */
   .application_page form {
     position: static;
     height: auto;
