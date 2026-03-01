@@ -12,12 +12,7 @@ import JobPost from "../components/JobPost";
 import Applications from "../components/Applications";
 import MyApplications from "../components/MyApplications";
 
-import {
-  RiMenuFoldLine,
-  RiMenuUnfoldLine,
-  RiMenuLine,
-  RiCloseLine,
-} from "react-icons/ri";
+import { RiMenuLine, RiCloseLine } from "react-icons/ri";
 
 import {
   FaUser,
@@ -31,17 +26,16 @@ import {
 } from "react-icons/fa";
 
 const navConfig = [
-  { label: "My Profile", key: "My Profile", icon: <FaUser />, roles: ["Job Seeker", "Employer"] },
-  { label: "Update Profile", key: "Update Profile", icon: <FaEdit />, roles: ["Job Seeker", "Employer"] },
-  { label: "Update Password", key: "Update Password", icon: <FaLock />, roles: ["Job Seeker", "Employer"] },
-  { label: "Post New Job", key: "Job Post", icon: <FaPlusCircle />, roles: ["Employer"] },
-  { label: "My Jobs", key: "My Jobs", icon: <FaBriefcase />, roles: ["Employer"] },
-  { label: "Applications", key: "Applications", icon: <FaListAlt />, roles: ["Employer"] },
-  { label: "My Applications", key: "My Applications", icon: <FaFileAlt />, roles: ["Job Seeker"] },
+  { label: "My Profile",      key: "My Profile",      icon: <FaUser />,       roles: ["Job Seeker", "Employer"] },
+  { label: "Update Profile",  key: "Update Profile",  icon: <FaEdit />,       roles: ["Job Seeker", "Employer"] },
+  { label: "Update Password", key: "Update Password", icon: <FaLock />,       roles: ["Job Seeker", "Employer"] },
+  { label: "Post New Job",    key: "Job Post",        icon: <FaPlusCircle />, roles: ["Employer"] },
+  { label: "My Jobs",         key: "My Jobs",         icon: <FaBriefcase />,  roles: ["Employer"] },
+  { label: "Applications",    key: "Applications",    icon: <FaListAlt />,    roles: ["Employer"] },
+  { label: "My Applications", key: "My Applications", icon: <FaFileAlt />,    roles: ["Job Seeker"] },
 ];
 
 const Dashboard = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [componentName, setComponentName] = useState("My Profile");
 
@@ -49,19 +43,15 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // ── Fetch user on mount ──
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
 
-  // ── Handle errors and authentication ──
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
-
-    // ✅ Only navigate if loading is false
     if (!loading && !isAuthenticated) {
       navigate("/login");
     }
@@ -72,23 +62,26 @@ const Dashboard = () => {
     toast.success("Logged out successfully.");
   };
 
-  const handleNav = (key) => setComponentName(key);
+  const handleNav = (key) => {
+    setComponentName(key);
+    setMobileOpen(false); // close sidebar on nav click (mobile)
+  };
 
-  const sidebarClass = ["sidebar", collapsed ? "collapsed" : "", mobileOpen ? "showSidebar" : ""]
+  const sidebarClass = ["sidebar", mobileOpen ? "showSidebar" : ""]
     .filter(Boolean)
     .join(" ");
 
   const renderComponent = () => {
     if (loading || !user) return <p>Loading user data...</p>;
     switch (componentName) {
-      case "My Profile": return <MyProfile user={user} />;
-      case "Update Profile": return <UpdateProfile user={user} />;
+      case "My Profile":      return <MyProfile user={user} />;
+      case "Update Profile":  return <UpdateProfile user={user} />;
       case "Update Password": return <UpdatePassword />;
-      case "Job Post": return <JobPost />;
-      case "My Jobs": return <MyJobs />;
-      case "Applications": return <Applications />;
+      case "Job Post":        return <JobPost />;
+      case "My Jobs":         return <MyJobs />;
+      case "Applications":    return <Applications />;
       case "My Applications": return <MyApplications />;
-      default: return <MyProfile user={user} />;
+      default:                return <MyProfile user={user} />;
     }
   };
 
@@ -105,19 +98,16 @@ const Dashboard = () => {
       <div className="container">
         {/* Sidebar */}
         <div className={sidebarClass}>
-          <div className="sidebar-toggle">
-            <button onClick={() => setCollapsed(!collapsed)} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
-              {collapsed ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
-            </button>
-          </div>
-
           <ul className="sidebar_links">
             <h4>Manage Account</h4>
             {navConfig.map((item) => {
               if (!user || !item.roles.includes(user.role)) return null;
               return (
                 <li key={item.key}>
-                  <button className={componentName === item.key ? "active-nav" : ""} onClick={() => handleNav(item.key)}>
+                  <button
+                    className={componentName === item.key ? "active-nav" : ""}
+                    onClick={() => handleNav(item.key)}
+                  >
                     <span className="nav-icon">{item.icon}</span>
                     <span className="nav-label">{item.label}</span>
                   </button>
@@ -136,6 +126,7 @@ const Dashboard = () => {
 
         {/* Main Content */}
         <div className="banner">
+          {/* FAB — mobile only */}
           <div className="sidebar_icon" onClick={() => setMobileOpen(!mobileOpen)}>
             {mobileOpen ? <RiCloseLine /> : <RiMenuLine />}
           </div>
