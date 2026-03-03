@@ -260,7 +260,7 @@ ul { list-style: none; }
   flex-shrink: 0;
   position: relative;
   width: 52%;
-  min-height: 100vh;
+  max-height: 80vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -291,7 +291,7 @@ ul { list-style: none; }
   transform: translateX(-50%);
   z-index: 2;
   width: 420px;
-  height: calc(100% - 2rem);
+  height: calc(100% - 1rem);
   max-height: 680px;
   display: flex;
   align-items: flex-end;
@@ -301,8 +301,9 @@ ul { list-style: none; }
 .hero-person-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
+  object-fit: cover; /* contain → cover for zoom in */
+  object-position: center; /* ya 'center top', 'center bottom' */
+ ;
   border-radius: 0;
   display: block;
 }
@@ -496,8 +497,8 @@ ul { list-style: none; }
   .hero-visual {
     width: 100%;
     min-height: 360px;
-    height: 360px;
-    margin-top: 2rem;
+    height: 460px;
+    margin-top: 1rem;
   }
 
   /* Blue background — shorter, bottom portion only */
@@ -537,13 +538,13 @@ ul { list-style: none; }
   }
 
   .hero-person-img {
-    object-fit: contain;
-    object-position: center bottom;
+    object-fit: cover;
+    object-position: center ;
   }
 
   /* Floating cards — compact */
   .hero-float-card {
-    padding: 0.4rem 0.65rem;
+    padding: 0.3rem 0.55rem;
     gap: 0.35rem;
     border-radius: 8px;
   }
@@ -552,32 +553,32 @@ ul { list-style: none; }
   .card-upload {
     top: 10%;
     left: calc(50% - 120px - 108px);  /* just left of img */
-    font-size: 0.62rem;
+    font-size: 0.42rem;
   }
 
   .card-matches {
     top: 10%;
     right: calc(50% - 120px - 108px);
-    font-size: 0.62rem;
+    font-size: 0.42rem;
   }
 
   .card-hired {
     bottom: 8%;
     left: calc(50% - 120px - 108px);
     min-width: 90px;
-    padding: 0.5rem 0.7rem;
+    padding: 0.4rem 0.6rem;
   }
 
   .card-jobs {
     bottom: 8%;
     right: calc(50% - 120px - 108px);
     min-width: 90px;
-    padding: 0.5rem 0.7rem;
+    padding: 0.4rem 0.6rem;
   }
 
-  .hired-number { font-size: 1rem; }
-  .hired-label  { font-size: 0.58rem; }
-  .float-icon   { font-size: 0.85rem; }
+  .hired-number { font-size: 0.8rem; }
+  .hired-label  { font-size: 0.48rem; }
+  .float-icon   { font-size: 0.75rem; }
 
   /* Hide deco on mobile */
   .deco-plus,
@@ -618,7 +619,7 @@ ul { list-style: none; }
 
   .badge-icon { width: 18px; height: 18px; font-size: 0.6rem; }
 
-  .hero-visual { min-height: 300px; height: 300px; margin-top: 1.5rem; }
+  .hero-visual { min-height: 300px; height: 300px;  }
 
   .hero-circle-bg { height: 52%; }
 
@@ -633,18 +634,18 @@ ul { list-style: none; }
     height: 280px;
   }
 
-  .hero-float-card { padding: 0.35rem 0.55rem; gap: 0.28rem; border-radius: 7px; }
+  .hero-float-card { padding: 0.15rem 0.35rem; gap: 0.28rem; border-radius: 7px; }
 
   /* img is 200px wide, centered → edge at calc(50% ± 100px) */
-  .card-upload  { top: 8%; left: calc(50% - 100px - 92px); font-size: 0.58rem; }
-  .card-matches { top: 8%; right: calc(50% - 100px - 92px); font-size: 0.58rem; }
+  .card-upload  { top: 3%; left: calc(40% - 90px - 32px); font-size: 0.38rem; }
+  .card-matches { top: 8%; right: calc(40% - 90px - 52px); font-size: 0.38rem; }
 
-  .card-hired { bottom: 6%; left: calc(50% - 100px - 92px); min-width: 78px; padding: 0.42rem 0.6rem; }
-  .card-jobs  { bottom: 6%; right: calc(50% - 100px - 92px); min-width: 78px; padding: 0.42rem 0.6rem; }
+  .card-hired { bottom: 9%; left: calc(50% - 100px - 52px); min-width: 78px; padding: 0.32rem 0.5rem; }
+  .card-jobs  { bottom: 12%; right: calc(50% - 100px - 42px); min-width: 78px; padding: 0.32rem 0.5rem; }
 
-  .hired-number { font-size: 0.88rem; }
-  .hired-label  { font-size: 0.54rem; }
-  .float-icon   { font-size: 0.78rem; }
+  .hired-number { font-size: 0.68rem; }
+  .hired-label  { font-size: 0.34rem; }
+  .float-icon   { font-size: 0.58rem; }
 }
 
 /* ===========================
@@ -672,7 +673,7 @@ ul { list-style: none; }
 
   .badge-icon { width: 16px; height: 16px; font-size: 0.55rem; border-radius: 4px; }
 
-  .hero-visual { min-height: 265px; height: 265px; margin-top: 1.2rem; }
+  .hero-visual { min-height: 265px; height: 265px;  }
 
   .hero-circle-bg { height: 50%; }
 
@@ -690,15 +691,15 @@ ul { list-style: none; }
   .hero-float-card { padding: 0.28rem 0.45rem; gap: 0.22rem; border-radius: 6px; }
 
   /* img is 170px wide, centered → edge at calc(50% ± 85px) */
-  .card-upload  { top: 7%; left: calc(50% - 85px - 80px); font-size: 0.52rem; }
-  .card-matches { top: 7%; right: calc(50% - 85px - 80px); font-size: 0.52rem; }
+  .card-upload  { top: 35%; left: calc(40% - 37px - 80px); font-size: 0.32rem; }
+  .card-matches { top: 3%; right: calc(50% - 65px - 80px); font-size: 0.52rem; }
 
-  .card-hired { bottom: 5%; left: calc(50% - 85px - 80px); min-width: 68px; padding: 0.35rem 0.5rem; }
-  .card-jobs  { bottom: 5%; right: calc(50% - 85px - 80px); min-width: 68px; padding: 0.35rem 0.5rem; }
+  .card-hired { bottom: 5%; left: calc(40% - 25px - 80px); min-width: 68px; padding: 0.35rem 0.5rem; }
+  .card-jobs  { bottom: 8%; right: calc(40% - 45px - 80px); min-width: 68px; padding: 0.35rem 0.5rem; }
 
-  .hired-number { font-size: 0.78rem; }
-  .hired-label  { font-size: 0.48rem; }
-  .float-icon   { font-size: 0.7rem; }
+  .hired-number { font-size: 0.68rem; }
+  .hired-label  { font-size: 0.38rem; }
+  .float-icon   { font-size: 0.6rem; }
 }
 /* ================================================================
    NAVBAR — RESPONSIVE FIX

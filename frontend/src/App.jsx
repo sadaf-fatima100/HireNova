@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,9 +18,8 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import PostApplication from "./pages/PostApplication";
 
-
+// Redux actions
 import { getUser } from "./store/slices/userSlice";
-
 
 // 🔥 Scroll To Top On Route Change
 const ScrollToTop = () => {
@@ -33,13 +32,16 @@ const ScrollToTop = () => {
   return null;
 };
 
-
 const App = () => {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+    // Only fetch user if they are logged in (cookie exists)
+    if (isAuthenticated) {
+      dispatch(getUser());
+    }
+  }, [isAuthenticated, dispatch]);
 
   return (
     <Router>
@@ -57,7 +59,7 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-     
+      <Footer />
 
       <ToastContainer
         position="top-right"
@@ -68,6 +70,5 @@ const App = () => {
     </Router>
   );
 };
-
 
 export default App;

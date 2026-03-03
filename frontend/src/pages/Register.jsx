@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { clearAllUserErrors, register, clearMessage } from "../store/slices/userSlice";
+import {
+  clearAllUserErrors,
+  register,
+  clearMessage,
+} from "../store/slices/userSlice";
 import { toast } from "react-toastify";
 
 import { FaAddressBook, FaPencilAlt, FaRegUser } from "react-icons/fa";
@@ -52,10 +56,11 @@ const Register = () => {
     "IT Consulting",
   ];
 
-  // ✅ Page khulte hi message clear karo
+  // ── Clear errors/messages only once on page load ──
   useEffect(() => {
+    dispatch(clearAllUserErrors());
     dispatch(clearMessage());
-  }, []);
+  }, [dispatch]);
 
   const handleChange = (e) => {
     setFormDataState({
@@ -73,26 +78,29 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     Object.keys(formDataState).forEach((key) => {
       if (formDataState[key]) formData.append(key, formDataState[key]);
     });
+
+    // ── Dispatch register action
     await dispatch(register(formData));
   };
 
+  // ── Toast notifications only on actual form submit response ──
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
 
-    // ✅ Register hone ke baad login par bhejo
     if (message) {
       toast.success(message);
-      dispatch(clearMessage()); // ← clear karo redirect se pehle
+      dispatch(clearMessage());
       navigate("/login");
     }
-  }, [dispatch, error, message, navigate]);
+  }, [error, message, dispatch, navigate]);
 
   return (
     <section className="authPage">
