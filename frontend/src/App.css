@@ -1444,7 +1444,9 @@ footer > div:nth-child(4) ul li a:hover span:first-child {
   grid-template-columns: 1fr 1fr;
   gap: 0.85rem;
 }
-
+.login-box{
+  grid-template-columns: 1fr !important 
+}
 /* ─────────────────────────────────────────────
    INPUT GROUPS
 ───────────────────────────────────────────── */

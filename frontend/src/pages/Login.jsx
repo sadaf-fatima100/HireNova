@@ -45,8 +45,8 @@ const Login = () => {
           <h3>Login to your account</h3>
         </div>
 
-        <form onSubmit={handleLogin}>
-          <div className="wrapper">
+        <form onSubmit={handleLogin} >
+          <div className="wrapper login-box">
             <div className="inputTag">
               <label>Login As</label>
               <div>
@@ -60,7 +60,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="wrapper">
+          <div className="wrapper login-box">
             <div className="inputTag">
               <label>Email</label>
               <div>
@@ -75,7 +75,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="wrapper">
+          <div className="wrapper login-box">
             <div className="inputTag">
               <label>Password</label>
               <div>

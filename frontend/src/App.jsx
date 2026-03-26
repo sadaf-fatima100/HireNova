@@ -59,7 +59,7 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      <Footer />
+      
 
       <ToastContainer
         position="top-right"
